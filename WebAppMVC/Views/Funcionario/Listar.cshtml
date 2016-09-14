@@ -1,7 +1,31 @@
-﻿
+﻿@model IEnumerable<WebAppMVC.Models.Funcionario>
+
 @{
     ViewBag.Title = "Listar";
 }
 
 <h2>Listar</h2>
 
+<table style="width: 50%">
+
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.codigo)</th>
+        <th>@Html.DisplayNameFor(m => m.nome)</th>
+        <th>@Html.DisplayNameFor(m => m.genero)</th>
+    </tr>
+    @foreach (var f in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(m => f.codigo)</td>
+            <td>@Html.DisplayFor(m => f.nome)</td>
+            <td>@Html.DisplayFor(m => f.genero)</td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = f.codigo })
+                | @Html.ActionLink("Excluir", "Excluir", new { id = f.codigo })
+            </td>
+        </tr>
+    }
+</table>
+
+@Html.ActionLink("Cadastrar novo", "Cadastrar")<br />
+@Html.ActionLink("Voltar para inicio", "Index")

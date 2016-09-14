@@ -23,12 +23,36 @@ namespace WebAppMVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(Funcionario func)
         {
-            
-            return View();
+            Repositorio repo = Repositorio.Instance();
+            repo.IncluirFuncionario(func);
+            return RedirectToAction("Listar");
         }
+
         public ActionResult Listar()
         {
-            return View();
+            IEnumerable<Funcionario> funcs = Repositorio.Instance().listarFuncionarios();
+            return View(funcs);
+        }
+
+        public ActionResult Editar(int id)
+        {
+            var func = Repositorio.Instance().listarFuncionario(id);
+            return View("Cadastrar", func);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(Funcionario func)
+        {
+            Repositorio.Instance().AlterarFuncionario(func);
+            return RedirectToAction("Listar");
+        }
+
+        [HttpPost]
+        public ActionResult Excluir(int id)
+        {
+            Repositorio repo = Repositorio.Instance();
+            repo.ExcluirFuncionario(id);
+            return RedirectToAction("Listar");
         }
     }
 }

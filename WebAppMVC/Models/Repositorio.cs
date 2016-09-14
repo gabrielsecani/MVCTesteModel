@@ -22,7 +22,6 @@ namespace WebAppMVC.Models
             {
                 _repositorio = new Repositorio();
             }
-
             return _repositorio;
         }
 
@@ -31,21 +30,30 @@ namespace WebAppMVC.Models
             funcionarios.Add(f);
         }
 
+        public void ExcluirFuncionario(int id)
+        {
+            var func = funcionarios.Where(f => f.codigo == id).FirstOrDefault();
+            funcionarios.Remove(func);
+        }
+
+        public void AlterarFuncionario(Funcionario f)
+        {
+            funcionarios.Where(w => w.codigo == f.codigo).
+                AsParallel().
+                ToList().
+                ForEach(s =>
+                {
+                    s.nome = f.nome;
+                    s.genero = f.genero;
+
+                });
+        }
         public IEnumerable<Funcionario> listarFuncionarios()
         {
             return funcionarios;
         }
 
-        public void ExcluirFuncionario(Funcionario f)
-        {
-            funcionarios.Remove(f);
-        }
-        public void AlterarFuncionario(Funcionario f)
-        {
-            funcionarios.Remove(f);
-            funcionarios.Add(f);
-        }
-        public Funcionario listarFuncionariO(int codigo)
+        public Funcionario listarFuncionario(int codigo)
         {
             return funcionarios.FirstOrDefault(f => f.codigo == codigo);
         }
